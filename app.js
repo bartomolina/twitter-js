@@ -3,15 +3,14 @@ const volleyball = require( 'volleyball' );
 const nunjucks = require( 'nunjucks' );
 const app = express();
 
-var port = process.env.PORT || 3000;
-
-console.log("start");
 
 app.use(volleyball);
-nunjucks.configure('views', {noCache: true});
 
+app.engine("html", nunjucks.render);
+app.set("view engine", "html");
+nunjucks.configure('views', { noCache: true });
 
-nunjucks.render('index.html', { title: "Outside request"}, function(err, output){console.log(output)});
+var port = process.env.PORT || 3000;
 
 // app.use(function(req, res, next) {
 //     console.log(req.method, req.url);
@@ -28,7 +27,8 @@ app.listen (port, function() {
 });
 
 app.get("/", function(request, response, next){
-    var res = nunjucks.render('index.html', { title: "An Example", people: [{name: "Gandal"}, {name: "Frodo"}, {name: "Hermione"}] });
+    response.render('index', { title: "An Example", people: [{name: "Gandal"}, {name: "Frodo"}, {name: "Hermione"}] })
+    // var res = nunjucks.render('index.html', { title: "An Example", people: [{name: "Gandal"}, {name: "Frodo"}, {name: "Hermione"}] });
     response.send(res);
 });
 
