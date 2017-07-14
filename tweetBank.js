@@ -4,6 +4,7 @@ var data = [];
 
 function add(name, content) {
   data.push({ name: name, content: content, id: data.length});
+  return data.length - 1; // id
 }
 
 function list() {
